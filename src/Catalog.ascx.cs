@@ -13,7 +13,7 @@ namespace byte5.UCommerceExt.Datatypes {
 
         protected void Page_Load(object sender, EventArgs e) {
 			if(!IsPostBack) {
-				var catalogs = from catalog in UCommerce.EntitiesV2.ProductCatalog.All() select catalog.Name;
+				var catalogs = from catalog in UCommerce.EntitiesV2.ProductCatalog.All() where !catalog.Deleted select catalog.Name;
 				ddlCatalog.DataSource = catalogs;
 				ddlCatalog.DataBind();
 				try {

@@ -17,7 +17,7 @@ namespace byte5.UCommerceExt.Datatypes {
 
 			if(!IsPostBack) {
                 clearSelection.ImageUrl = "/umbraco/images/close.png";
-				var catalogs = from catalog in UCommerce.EntitiesV2.ProductCatalog.All() select catalog;
+				var catalogs = from catalog in UCommerce.EntitiesV2.ProductCatalog.All() where !catalog.Deleted select catalog;
 
 				// Anfangen den TreeView aufzubauen, die obersten Knoten bilden die Kataloge
 				foreach(UCommerce.EntitiesV2.ProductCatalog productCatalog in catalogs) {
@@ -128,7 +128,7 @@ namespace byte5.UCommerceExt.Datatypes {
 					int catalogId = int.Parse(e.Node.Value);
 					var catalog = UCommerce.EntitiesV2.ProductCatalog.All().SingleOrDefault(cata => cata.ProductCatalogId == catalogId);
 					if (catalog != null) {
-						foreach (var category in catalog.Categories.Where(cate => cate.ParentCategory == null)) {
+						foreach (var category in catalog.Categories.Where(cate => cate.ParentCategory == null && !cate.Deleted)) {
 							TreeNode catNode = new TreeNode(category.Name, category.CategoryId.ToString());
 							catNode.ImageUrl = "/umbraco/images/umbraco/folder.gif";
 							e.Node.ChildNodes.Add(catNode);
